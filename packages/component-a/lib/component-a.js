@@ -1,7 +1,7 @@
-'use strict';
+const _ = require('component-c')
 
-module.exports = componentA;
-
-function componentA() {
-    // TODO
+function add(a, b) {
+    return _.add(a + b)
 }
+
+module.exports = add

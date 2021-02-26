@@ -1,7 +1,7 @@
-'use strict';
+const _ = require('component-c')
 
-module.exports = componentB;
-
-function componentB() {
-    // TODO
+function multiply(a, b) {
+    return _.multiply(a, b)
 }
+
+module.exports = multiply

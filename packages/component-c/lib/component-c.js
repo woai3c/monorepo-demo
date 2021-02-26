@@ -1,7 +1,3 @@
-'use strict';
+const _ = require('lodash')
 
-module.exports = componentC;
-
-function componentC() {
-    // TODO
-}
+module.exports = _
