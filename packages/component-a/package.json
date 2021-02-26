@@ -1,6 +1,6 @@
 {
   "name": "component-a",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "private": true,
   "description": "Now I’m the model of a modern major general / The venerated Virginian veteran whose men are all / Lining up, to put me up on a pedestal / Writin’ letters to relatives / Embellishin’ my elegance and eloquence / But the elephant is in the room / The truth is in ya face when ya hear the British cannons go / BOOM",
   "keywords": [],
@@ -21,7 +21,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "dependencies": {
-    "component-c": "^1.1.0",
+    "component-c": "^1.1.2",
     "lodash": "^4.17.21"
   }
 }
