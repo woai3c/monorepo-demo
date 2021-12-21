@@ -1,5 +1,5 @@
-const add = require('component-a')
-const multiply = require('component-b')
+const add = require('@tan/component-a')
+const multiply = require('@tan/component-b')
 const _ = require('lodash')
 
 console.log(add(100, 100) == _.add(100, 100))
