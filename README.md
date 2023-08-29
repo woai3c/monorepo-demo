@@ -1,56 +1,88 @@
 # monorepo-demo
-lerna + yarn 实现多包管理
 
-* main 依赖 component-a component-b
-* component-a 和 component-b 依赖 component-c
-* component-c 已被发布到 npm（测试成功后被我撤销了，要不 npm 又多一个垃圾包）
+使用 pnpm 实现多包管理
+
+* main（依赖 utils）
+* utils
 
 ## 使用
-### 安装 lerna、yarn
-```
-npm i -g lerna yarn
+
+### 安装 pnpm
+
+```sh
+npm i -g pnpm
 ```
 
 ### 安装项目依赖
-安装所有 packages 的依赖项并且连接本地包的交叉依赖项。
-```
-lerna bootstrap
+
+#### 安装所有依赖
+
+```sh
+pnpm i
 ```
 
-### 添加新包
-```
-lerna create foo
-```
-执行命令后会在 `packages` 下创建一个新的包 `foo`。
+#### 安装公共依赖
 
-### 添加第三方依赖
-如果想添加第三方依赖包到某个包中，假设添加 `chalk` 依赖到 `foo` 中，可以执行命令：
-```
-lerna add chalk --scope=foo --dev
-```
-`--dev` 表明将依赖安装为开发包，如果构建项目需要将依赖包也打进去，例如 `element-plus`，则不需要添加 `--dev` 参数。
-#### 添加全局依赖
-如果添加的第三方依赖包想在所有的包中使用，则在项目根目录下执行：
-```
-yarn add chalk --dev -W
+```sh
+pnpm i typescript -Dw
 ```
 
-### 将本地包作为依赖
-假设现在有两个本地包 `foo` 和 `bar`，如果想把 `foo` 到 `bar` 的依赖库中，执行如下命令：
-```
-lerna add foo --scope=bar
-```
-### 打包
-打包需要使用 `lerna run` 命令，在包含该脚本命令的每个包内部执行 `npm script` 脚本命令,也可以指定在某个包下执行。
+#### 安装局部依赖
 
-#### 批量打包
-```
-lerna run build
-```
-#### 单独打包某个包
-```
-lerna run build --scope=foo
+可以切换到某个包下安装依赖
+
+```sh
+pnpm i express
 ```
 
-参考资料：
-* [lerna多包管理实践](https://juejin.cn/post/6844904194999058440)
+也可以在根目录下安装
+
+```sh
+pnpm add express --filter main
+```
+
+`main` 是你的包名目录，这里的意思是将 `express` 安装到 `main` 包下。
+
+#### 安装项目内互相依赖
+
+比如 `main` 包依赖了 `utils` 包里的方法，那可以将 `utils` 包添加到 `main` 包的依赖里：
+
+```sh
+pnpm add utils --filter main
+```
+
+添加后，`main` 的 `package.json` 文件如下：
+
+```json
+{
+  "name": "main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "utils": "workspace:^"
+  }
+}
+```
+
+`workspace:^` 代表了是 monorepo 项目内的包。
+
+执行 `pnpm publish` 时会自动将 `workspace:^` 替换成版本号，例如 `"utils": "^1.0.0"`。
+
+### 移除依赖
+
+```sh
+pnpm remove express
+
+pnpm remove utils --filter main
+```
+
+### link
+
+```sh
+pnpm link --global
+pnpm link --global <pkg>
+```
